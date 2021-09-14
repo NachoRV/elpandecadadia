@@ -1,11 +1,10 @@
 <template>
    <UploadImages @changed="handleImages" />
-   <button @click="uploadImg">Subir fotos</button>
 </template>
 <script>
 // @ is an alias to /src
-import UploadImages from 'vue-upload-drop-images';
 import { ref } from 'vue';
+import UploadImages from './vue-upload-drop-images.vue';
 import { st } from '../firebase';
 
 export default {
@@ -23,27 +22,31 @@ export default {
   setup(props, { emit }) {
     const files = ref([]);
     const filesUrl = [];
-    const handleImages = (e) => {
-      files.value = e;
-    };
     const uploadImg = () => {
-      files.value.forEach((img, index) => {
+      files.value.forEach((img) => {
         const storageRef = st.ref(props.album).child(`${img.name}`).put(img);
-        storageRef.on('state_changed', (/* snapshot */) => {
-          // const uploadValue = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        }, (error) => { console.log(error.message); },
+        storageRef.on('state_changed', (snapshot) => {
+          const uploadValue = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log(uploadValue);
+          document.getElementById('reset').dispatchEvent(new MouseEvent('click', { bubbles: true, cancellable: true }));
+        },
+        (error) => { console.log(error.message); },
         () => {
-          // const uploadValue = 100;
+          console.log(props.album, img.name);
           storageRef.snapshot.ref.getDownloadURL().then((url) => {
-            if (!filesUrl.includes(url)) filesUrl.push(url);
-            if ((index + 1) === files.value.length) {
-              emit('save', filesUrl);
+            if (!filesUrl.includes(url)) {
+              filesUrl.push(url);
+              emit('save', { url, name: `${props.album}/${img.name}` });
+              console.log(filesUrl);
             }
           });
         });
       });
     };
-
+    const handleImages = (e) => {
+      files.value = e;
+      uploadImg();
+    };
     return {
       handleImages,
       files,

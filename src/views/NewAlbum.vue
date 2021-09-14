@@ -1,15 +1,17 @@
 <template>
   <div class="container">
-    <Upload :album="album.titulo" @save="save" />
+    <div class="title">
+      <!-- <label for="titulo">Título: </label> -->
+      <input type="text" v-model="album.titulo" placeholder="Ttulo de la exposición" />
+    </div>
+    <Upload v-if="album.titulo" :album="album.titulo" @save="save" />
     <section class="album-data">
-      <div class="title">
-        <label for="titulo">Título: </label>
-        <input type="text" v-model="album.titulo" placeholder="Titulo de la exposición" />
-      </div>
-      <div class="img-card" v-for="img in album.img" :key="img">
+      <div class="img-card" v-for="(img, index) in album.img" :key="img">
         <img :src="img.url" alt="foto" />
-        <input type="text" v-model="img.title" />
-        <input type="text" v-model="img.description" />
+        <button @click="deleteImg(img.name, index)"> borrar</button>
+        <input type="text" v-model="img.title" placeholder="titulo"/>
+        <input type="text" v-model="img.description" placeholder="Descripció" />
+        <button @click="saveAlbum"> Crear Album</button>
       </div>
     </section>
   </div>
@@ -18,6 +20,7 @@
 // @ is an alias to /src
 import Upload from '@/components/Upload.vue';
 import { ref } from 'vue';
+import { db, st } from '../firebase';
 // import { onMounted, ref } from 'vue';
 // import { useRoute } from 'vue-router';
 
@@ -35,17 +38,34 @@ export default {
     });
 
     const save = (e) => {
-      album.value.img = [];
-      console.log(album.value.img);
-      console.log(e);
-      e.forEach((element) => {
-        album.value.img.push({
-          url: element,
-          title: 'Título',
-          description: 'Descripcion...',
-        });
+      album.value.img.push({
+        url: e.url,
+        name: e.name,
+        title: '',
+        description: '',
       });
       console.log(album.value);
+    };
+    const saveAlbum = () => {
+      console.log(album.value);
+      db.collection('Albums').doc(album.value.titulo).set(album.value).then(() => {
+        console.log('Document successfully written!');
+      })
+        .catch((error) => {
+          console.error('Error writing document: ', error);
+        });
+    };
+
+    const deleteImg = (img, i) => {
+      const desertRef = st.ref().child(img);
+      desertRef.delete().then(() => {
+        // File deleted successfully
+        console.log('borrada');
+        album.value.img.splice(i, 1);
+      }).catch((error) => {
+        // Uh-oh, an error occurred!
+        console.log(error);
+      });
     };
     // onMounted(() => {
     //   if (route.params.album !== undefined && route.params.album !== '') {
@@ -57,13 +77,19 @@ export default {
       album,
       titulo,
       save,
+      saveAlbum,
+      deleteImg,
     };
   },
 };
 </script>
 <style lang="scss" scoped>
 .container {
-  margin: 1.5rem;
+  max-width: 900px;
+  margin: auto;
+  padding: 1rem;
+  background-color: beige;
+  height: 100%;
 }
 
 .album-data {
@@ -73,7 +99,18 @@ export default {
   align-items: flex-start;
 }
 .title {
-  margin-bottom: 5px;
+  margin-bottom: 2rem;
+
+  input {
+    width: 50%;
+    background-color: transparent;
+    font-size: 2rem;
+  }
+
+  input:focus {
+    border-bottom: 2px solid blue;
+    outline: none;
+  }
 }
 input {
   border: none;
