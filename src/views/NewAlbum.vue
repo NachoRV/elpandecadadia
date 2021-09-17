@@ -1,26 +1,34 @@
 <template>
   <div class="container">
+    <span class="error" v-if="hasError">* Falta el título de la exposicion </span>
     <div class="title">
-      <!-- <label for="titulo">Título: </label> -->
-      <input type="text" v-model="album.titulo" placeholder="Ttulo de la exposición" />
+      <input
+        type="text"
+        v-model="album.titulo"
+        placeholder="Ttulo de la exposición"
+        @change="showError" />
     </div>
-    <Upload v-if="album.titulo" :album="album.titulo" @save="save" />
+    <Upload :album="album.titulo" @save="save" />
     <section class="album-data">
-      <div class="img-card" v-for="(img, index) in album.img" :key="img">
-        <img :src="img.url" alt="foto" />
-        <button @click="deleteImg(img.name, index)"> borrar</button>
-        <input type="text" v-model="img.title" placeholder="titulo"/>
-        <input type="text" v-model="img.description" placeholder="Descripció" />
-        <button @click="saveAlbum"> Crear Album</button>
-      </div>
+      <img-card-admin
+        v-for="(img, index) in album.img"
+        :key="img"
+        :img="img"
+        :index="index"
+        @setTitle="setTitle($event, index)"
+        @setDescription="setDescription($event, index)">
+      </img-card-admin>
     </section>
+    <button class="btn" v-if="album.img.length > 0" @click="saveAlbum"> Crear Album</button>
   </div>
 </template>
 <script>
 // @ is an alias to /src
 import Upload from '@/components/Upload.vue';
+import ImgCardAdmin from '@/components/ImgCardAdmin.vue';
 import { ref } from 'vue';
 import { db, st } from '../firebase';
+
 // import { onMounted, ref } from 'vue';
 // import { useRoute } from 'vue-router';
 
@@ -28,9 +36,11 @@ export default {
   name: 'NewAlbum',
   components: {
     Upload,
+    ImgCardAdmin,
   },
   setup() {
     // const route = useRoute();
+    const hasError = ref(false);
     const titulo = ref('');
     const album = ref({
       titulo: '',
@@ -44,10 +54,13 @@ export default {
         title: '',
         description: '',
       });
-      console.log(album.value);
     };
     const saveAlbum = () => {
-      console.log(album.value);
+      if (album.value.titulo === '') {
+        hasError.value = true;
+        return;
+      }
+
       db.collection('Albums').doc(album.value.titulo).set(album.value).then(() => {
         console.log('Document successfully written!');
       })
@@ -67,6 +80,21 @@ export default {
         console.log(error);
       });
     };
+    const setDescription = (description, i) => {
+      console.log(description, i);
+      album.value.img[i].description = description;
+      console.log(album.value.img[i]);
+    };
+
+    const setTitle = (title, i) => {
+      album.value.img[i].title = title;
+    };
+
+    const showError = () => {
+      if (album.value.titulo !== '') {
+        hasError.value = false;
+      }
+    };
     // onMounted(() => {
     //   if (route.params.album !== undefined && route.params.album !== '') {
     //     album.value = route.params.album;
@@ -79,6 +107,10 @@ export default {
       save,
       saveAlbum,
       deleteImg,
+      setDescription,
+      setTitle,
+      hasError,
+      showError,
     };
   },
 };
@@ -88,40 +120,41 @@ export default {
   max-width: 900px;
   margin: auto;
   padding: 1rem;
-  background-color: beige;
   height: 100%;
+  position: relative;
 }
 
+.error {
+  color: red;
+  margin: .5rem;
+  font-weight: bold;
+  position: absolute;
+  right: 5px;
+}
 .album-data {
   display: flex;
-  flex-direction: column;
+  gap: 5rem;
+  flex-wrap: wrap;
   justify-content: flex-start;
   align-items: flex-start;
+  margin: 2rem 0;
 }
 .title {
-  margin-bottom: 2rem;
+  margin-bottom: 4rem;
 
   input {
     width: 50%;
     background-color: transparent;
-    font-size: 2rem;
+    font-size: 3rem;
+    font-weight: bold;
+    border: none;
+    text-align: center;
   }
 
   input:focus {
-    border-bottom: 2px solid blue;
+    border-bottom: 2px solid black;
     outline: none;
   }
 }
-input {
-  border: none;
-  border-bottom: 1px solid blue;
-}
 
-.img-card {
-  display: flex;
-  img {
-    width: 100px;
-    height: 100px;
-  }
-}
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div id="nav">
     <router-link to="/">Home</router-link> |
-    <router-link to="/admin">New album</router-link> |
+    <router-link to="/admin/new">Crear Exposicion</router-link> |
     <router-link to="/album">Album</router-link>
   </div>
   <router-view/>
@@ -11,9 +11,15 @@
 
 html {
   box-sizing: border-box;
+    /* 1rem = 10px */
+  font-size: 62.5%;
 }
 *, *:before, *:after {
   box-sizing: inherit;
+}
+
+body {
+  font-size: 1.6rem;
 }
 
 #app {
@@ -36,4 +42,23 @@ html {
     }
   }
 }
+
+.btn {
+  background-color: #42b983d0;
+  padding: .5rem;
+  border: 1px solid #42b983;
+  border-radius: 5px;
+  width: 20rem;
+  height: 3rem;
+  color: rgba(255, 255, 255, 0.884);
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.btn:hover {
+  cursor: pointer;
+  background-color: #328f65d0;
+  box-shadow: 0 2px 5px black;
+}
+
 </style>

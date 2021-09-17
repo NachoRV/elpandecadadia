@@ -1,19 +1,117 @@
 <template>
-  <div class="img-card" v-for="(img, index) in album.img" :key="img">
+  <div class="img-card">
     <img :src="img.url" alt="foto" />
-    <button @click="deleteImg(img.name, index)"> borrar</button>
-    <input type="text" v-model="img.title" placeholder="titulo"/>
-    <input type="text" v-model="img.description" placeholder="Descripció" />
-    <button @click="saveAlbum"> Crear Album</button>
- </div>
+    <img
+      alt="delete"
+      src="../assets/delete.svg"
+      class="delete"
+      @click="deleteImg(img.name, index)"
+    />
+    <input
+      type="text"
+      v-model="title"
+      placeholder="Título"
+      @change="setTitle"
+    />
+    <textarea
+      maxlength="200"
+      v-model="description"
+      placeholder="Descripción..."
+      @change="setDescription"
+    />
+  </div>
 </template>
 <script>
+import { ref } from 'vue';
+
 export default {
-  setup() {
-    return {};
+  name: 'ImgCardAdmin',
+  props: {
+    img: {
+      type: Object,
+      required: false,
+    },
+    index: {
+      type: Number,
+      required: true,
+    },
+  },
+  events: ['setTitle', 'setDescription'],
+  setup(props, { emit }) {
+    const title = ref('');
+    const description = ref('');
+
+    const setTitle = () => {
+      emit('setTitle', title.value);
+    };
+    const setDescription = () => {
+      emit('setDescription', description.value);
+    };
+
+    return {
+      title,
+      description,
+      setTitle,
+      setDescription,
+    };
   },
 };
 </script>
 <style lang="scss" scoped>
 
+.img-card {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-shadow: 0 3px 1px -2px rgb(0 0 0 / 20%),
+  0 2px 2px 0 rgb(0 0 0 / 14%),
+  0 1px 5px 0 rgb(0 0 0 / 12%);
+  border-radius: .5rem;
+
+  img {
+    width: 260px;
+    height: 260px;
+    margin-bottom: .5rem;
+    border-radius: 5px 5px 0 0;
+  }
+
+  textarea {
+    border: none;
+    outline: none;
+    width: 90%;
+    margin: 0.5rem auto;
+    resize: none;
+    height: 12.5rem;
+  }
+
+    textarea:focus {
+    border-bottom: 2px solid black;
+    outline: none;
+  }
+
+  input {
+    border: none;
+    background-color: transparent;
+    margin-bottom: .5rem;
+    width: 90%;
+    margin: 0.5rem auto;
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+
+  input:focus {
+    border-bottom: 2px solid black;
+    outline: none;
+  }
+
+  .delete {
+    position: absolute;
+    top: 0;
+    right: 5px;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+  }
+
+}
 </style>
