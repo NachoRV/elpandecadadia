@@ -16,7 +16,8 @@
         :img="img"
         :index="index"
         @setTitle="setTitle($event, index)"
-        @setDescription="setDescription($event, index)">
+        @setDescription="setDescription($event, index)"
+        @deleteImg="deleteImg">
       </img-card-admin>
     </section>
     <button class="btn" v-if="album.img.length > 0" @click="saveAlbum"> Crear Album</button>

@@ -22,7 +22,7 @@
   </div>
 </template>
 <script>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 
 export default {
   name: 'ImgCardAdmin',
@@ -36,7 +36,7 @@ export default {
       required: true,
     },
   },
-  events: ['setTitle', 'setDescription'],
+  events: ['setTitle', 'setDescription', 'deleteImg'],
   setup(props, { emit }) {
     const title = ref('');
     const description = ref('');
@@ -48,11 +48,25 @@ export default {
       emit('setDescription', description.value);
     };
 
+    const deleteImg = () => {
+      emit('deleteImg', props.img.name, props.index);
+    };
+
+    onMounted(() => {
+      if (props.img.title) {
+        title.value = props.img.title;
+      }
+      if (props.img.description) {
+        description.value = props.img.description;
+      }
+    });
+
     return {
       title,
       description,
       setTitle,
       setDescription,
+      deleteImg,
     };
   },
 };
