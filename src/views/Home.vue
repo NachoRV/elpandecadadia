@@ -36,6 +36,12 @@ export default {
     const showUpdateBtn = ref(false);
     const selectAlbumTitle = ref(null);
 
+    const layout = () => {
+      const numOfImg = albums.value[selectAlbum.value].img.length;
+      const resto = numOfImg / 4;
+      console.log(resto);
+    };
+
     const select = (i, title) => {
       if (i === selectAlbum.value) {
         selectAlbum.value = null;
@@ -45,6 +51,7 @@ export default {
       selectAlbumTitle.value = title;
       selectAlbum.value = i;
       console.log(selectAlbumTitle.value);
+      layout();
     };
     const deleteImg = (img, i) => {
       const desertRef = st.ref().child(img);
@@ -156,12 +163,11 @@ ul {
   }
 }
 .main {
-  max-width: 90vh;
+  padding: 1rem;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-auto-rows: 150px;
+  grid-auto-rows: 200px;
   grid-gap: 2px;
-
 }
 
 .gallery__img {
@@ -175,5 +181,22 @@ ul {
 }
 .gallery__item:nth-child(7) {
   grid-row-start: span 2;
+}
+
+@media (max-width: 768px) {
+  .main {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (max-width: 600px) {
+  .main {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 500px) {
+   .main {
+      display: flex;
+      flex-direction: column;
+  }
 }
 </style>
