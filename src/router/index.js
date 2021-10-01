@@ -24,12 +24,12 @@ const routes = [
   //   component: () => import(/* webpackChunkName: "about" */ '../views/Admin.vue'),
   // },
   {
-    path: '/album',
+    path: '/admin',
     name: 'Album',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/NewAlbumOld.vue'),
+    component: () => import(/* webpackChunkName: "about" */ '../views/AdminAlbums.vue'),
   },
 ];
 

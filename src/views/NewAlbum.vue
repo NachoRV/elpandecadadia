@@ -1,4 +1,5 @@
 <template>
+<Nav />
   <div class="container">
     <span class="error" v-if="hasError">* Falta el título de la exposicion </span>
     <div class="title">
@@ -29,15 +30,14 @@ import Upload from '@/components/Upload.vue';
 import ImgCardAdmin from '@/components/ImgCardAdmin.vue';
 import { ref } from 'vue';
 import { db, st } from '../firebase';
-
-// import { onMounted, ref } from 'vue';
-// import { useRoute } from 'vue-router';
+import Nav from '../components/Nav.vue';
 
 export default {
   name: 'NewAlbum',
   components: {
     Upload,
     ImgCardAdmin,
+    Nav,
   },
   setup() {
     // const route = useRoute();
@@ -64,6 +64,12 @@ export default {
 
       db.collection('Albums').doc(album.value.titulo).set(album.value).then(() => {
         console.log('Document successfully written!');
+        album.value.titulo = '';
+        album.value = {
+          titulo: '',
+          img: [],
+        };
+        hasError.value = false;
       })
         .catch((error) => {
           console.error('Error writing document: ', error);

@@ -42,10 +42,10 @@ export default {
     const description = ref('');
 
     const setTitle = () => {
-      emit('setTitle', title.value);
+      emit('setTitle', title.value, props.index);
     };
     const setDescription = () => {
-      emit('setDescription', description.value);
+      emit('setDescription', description.value, props.index);
     };
 
     const deleteImg = () => {

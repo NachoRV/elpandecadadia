@@ -1,4 +1,5 @@
 <template>
+<Nav />
 <nav>
   <ul>
     <li
@@ -10,6 +11,10 @@
     </li>
   </ul>
 </nav>
+<div class="btn-row" v-if="selectAlbum !== null">
+  <button @click="deleteAlbum()" class="drop">Borrar</button>
+  <button v-if="showUpdateBtn" @click="update" class="update">Guardar</button>
+</div>
 <section v-if="selectAlbum !== null" class="main">
   <ImgCardAdmin
     v-for="(img, index) in albums[selectAlbum].img"
@@ -26,11 +31,13 @@
 import { onMounted, ref } from 'vue';
 import { db, st } from '../firebase';
 import ImgCardAdmin from '../components/ImgCardAdmin.vue';
+import Nav from '../components/Nav.vue';
 
 export default {
-  components: { ImgCardAdmin },
-  name: 'Home',
+  components: { ImgCardAdmin, Nav },
+  name: 'AdminAlbums',
   setup() {
+    // st.ref().getDownloadURL();
     const albums = ref([]);
     const selectAlbum = ref(null);
     const showUpdateBtn = ref(false);
@@ -122,6 +129,15 @@ export default {
 
     onMounted(async () => {
       await getAlbums();
+
+      // const listRef = st.ref().child('img');
+      // listRef.listAll().then((res) => {
+      //   console.log(res.items);
+      //   res.items.forEach(async (item) => {
+      //     const url = await item.getDownloadURL();
+      //     console.log(url);
+      //   });
+      // });
     });
     return {
       albums,
