@@ -1,4 +1,5 @@
 <script>
+/* eslint-disable max-len */
 export default {
   name: 'VueUploadImages', // vue component name
   data() {
