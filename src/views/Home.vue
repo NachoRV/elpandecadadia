@@ -11,24 +11,24 @@
   </ul>
 </nav>
 <section v-if="selectAlbum !== null" class="main">
-  <ImgCardAdmin
-    v-for="(img, index) in albums[selectAlbum].img"
+  <div
+    v-for="(img) in albums[selectAlbum].img"
     :key="img.url"
-    :img="img"
-    :index="index"
-    @deleteImg="deleteImg"
-    @setTitle="setTitle"
-    @setDescription="setDescription"
-  />
+    class="gallery__item"
+  >
+    <img
+      class="gallery__img"
+      :src="img.url"
+      :alt="img.url"
+    >
+  </div>
 </section>
 </template>
 <script>
 import { onMounted, ref } from 'vue';
 import { db, st } from '../firebase';
-import ImgCardAdmin from '../components/ImgCardAdmin.vue';
 
 export default {
-  components: { ImgCardAdmin },
   name: 'Home',
   setup() {
     const albums = ref([]);
@@ -139,23 +139,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.main {
-  display: flex;
-  flex-direction: row;
-  gap: 5rem;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  align-items: flex-start;
-  margin: 2rem 0;
-}
-.delete-album {
-  background-color: red;
-  border-radius: 50%;
-  color: white;
-  width: 30px;
-  height:  30px;
-}
-
 ul {
   list-style: none;
   display: flex;
@@ -164,45 +147,33 @@ ul {
 
   li {
     font-weight: bold;
+    cursor: pointer;
+
   }
 
   .selected {
     border-bottom: 2px solid black;
   }
 }
+.main {
+  max-width: 90vh;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 150px;
+  grid-gap: 2px;
 
-.btn-row {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+}
 
-  button {
-    padding: 0.5rem;
-    min-width: 8rem;
-    color: white;
-    border-radius: 5px;
-    margin-right:1rem;
+.gallery__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 
-    &:hover {
-      cursor: pointer;
-    //   box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
-    //    rgba(0, 0, 0, 0.12) 0px -12px 30px,
-    //    rgba(0, 0, 0, 0.12) 0px 4px 6px,
-    //    rgba(0, 0, 0, 0.17) 0px 12px 13px,
-    //    rgba(0, 0, 0, 0.09) 0px -3px 5px;
-    box-shadow: 1px 1px 9px 0px  rgba(0, 0, 0, 0.877) ;
-    }
-  }
-
-  .drop {
-    background-color: rgba(150, 4, 4, 0.788);
-    border: 1px solid rgba(94, 2, 2, 0.596);
-  }
-
-  .update {
-    background-color: rgba(1, 145, 20, 0.747);
-    border: 1px solid rgba(3, 112, 17, 0.993);
-  }
-
+.gallery__item:nth-child(5) {
+  grid-column-start: span 2;
+}
+.gallery__item:nth-child(7) {
+  grid-row-start: span 2;
 }
 </style>

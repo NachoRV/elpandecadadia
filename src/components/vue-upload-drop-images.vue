@@ -28,7 +28,7 @@ export default {
         files.forEach((file) => {
           if (file.type.startsWith('image') === false) status = false;
         });
-        if (status == true) {
+        if (status === true) {
           if (
             this.$props.max
             && files.length + this.files.length > this.$props.max
@@ -80,12 +80,12 @@ export default {
           : `Maximum files is${this.$props.max}`;
         return;
       }
-      if (this.dropped == 0) this.files.push(...event.currentTarget.files);
+      if (this.dropped === 0) this.files.push(...event.currentTarget.files);
       this.error = '';
       this.$emit('changed', this.files);
       const readers = [];
       if (!this.files.length) return;
-      for (let i = 0; i < this.files.length; i++) {
+      for (let i = 0; i < this.files.length; i += 1) {
         readers.push(this.readAsDataURL(this.files[i]));
       }
       Promise.all(readers).then((values) => {
