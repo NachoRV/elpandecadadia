@@ -1,4 +1,7 @@
 <template>
+<div>
+  <h1>El Pan de Cada día</h1>
+</div>
 <nav>
   <ul>
     <li
@@ -12,7 +15,7 @@
 </nav>
 <section v-if="selectAlbum !== null" class="main">
   <div
-    v-for="(img) in albums[selectAlbum].img"
+    v-for="(img, index) in albums[selectAlbum].img"
     :key="img.url"
     class="gallery__item"
   >
@@ -20,6 +23,7 @@
       class="gallery__img"
       :src="img.url"
       :alt="img.url"
+      @click="selectItem(albums[selectAlbum].img, index)"
     >
   </div>
 </section>
@@ -38,8 +42,12 @@ export default {
 
     const layout = () => {
       const numOfImg = albums.value[selectAlbum.value].img.length;
-      const resto = numOfImg / 4;
-      console.log(resto);
+      let numOfLines = numOfImg / 4;
+      const resto = parseInt(numOfLines.toString().split('.')[1], 10);
+      if (resto) numOfLines = Math.trunc(numOfLines) + 1;
+      // switch(restt) {
+      //  case 25:
+      // }
     };
 
     const select = (i, title) => {
@@ -53,6 +61,11 @@ export default {
       console.log(selectAlbumTitle.value);
       layout();
     };
+
+    const selectItem = (array, i) => {
+      console.log(array, i);
+    };
+
     const deleteImg = (img, i) => {
       const desertRef = st.ref().child(img);
       desertRef.delete().then(() => {
@@ -141,6 +154,7 @@ export default {
       setDescription,
       showUpdateBtn,
       selectAlbumTitle,
+      selectItem,
     };
   },
 };
@@ -149,13 +163,12 @@ export default {
 ul {
   list-style: none;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   margin: 3rem;
-
   li {
     font-weight: bold;
     cursor: pointer;
-
+    margin: 0 1rem;
   }
 
   .selected {
@@ -164,39 +177,54 @@ ul {
 }
 .main {
   padding: 1rem;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-auto-rows: 200px;
-  grid-gap: 2px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
-
+.gallery__item {
+   width: 25%;
+}
 .gallery__img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+   width: 100%;
+   height: 100%;
+   object-fit: cover;
 }
 
-.gallery__item:nth-child(5) {
-  grid-column-start: span 2;
-}
-.gallery__item:nth-child(7) {
-  grid-row-start: span 2;
-}
+// .main {
+//   padding: 1rem;
+//   display: grid;
+//   grid-template-columns: repeat(4, 1fr);
+//   grid-auto-rows: 200px;
+//   grid-gap: 2px;
+// }
 
-@media (max-width: 768px) {
-  .main {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-@media (max-width: 600px) {
-  .main {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-@media (max-width: 500px) {
-   .main {
-      display: flex;
-      flex-direction: column;
-  }
-}
+// .gallery__img {
+//   width: 100%;
+//   height: 100%;
+//   object-fit: cover;
+// }
+
+// .gallery__item:nth-child(5) {
+//   grid-column-start: span 2;
+// }
+// .gallery__item:nth-child(7) {
+//   grid-row-start: span 2;
+// }
+
+// @media (max-width: 768px) {
+//   .main {
+//     grid-template-columns: repeat(3, 1fr);
+//   }
+// }
+// @media (max-width: 600px) {
+//   .main {
+//     grid-template-columns: repeat(2, 1fr);
+//   }
+// }
+// @media (max-width: 500px) {
+//    .main {
+//       display: flex;
+//       flex-direction: column;
+//   }
+// }
 </style>
