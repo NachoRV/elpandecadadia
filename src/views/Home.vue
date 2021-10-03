@@ -1,6 +1,9 @@
 <template>
-<div>
+<div class="header">
   <h1>El Pan de Cada día</h1>
+  <a href="https://www.instagram.com/elpandecadadia.es/" target="_blank">
+    <img class="insta"  src="../assets/instagram.png" alt="insta">
+  </a>
 </div>
 <nav>
   <ul>
@@ -180,6 +183,12 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
 ul {
   list-style: none;
   display: flex;
@@ -194,6 +203,13 @@ ul {
   .selected {
     border-bottom: 2px solid black;
   }
+}
+.insta {
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  top: 5px;
+  right: 5px;
 }
 .main {
   margin: auto;
