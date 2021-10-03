@@ -27,18 +27,29 @@
     >
   </div>
 </section>
+<teleport to="body" v-if="lightboxImgs.length >0">
+  <lightbox
+  :index="lightboxIndex"
+  :imgs="lightboxImgs"
+  @close="close"
+  />
+</teleport>
 </template>
 <script>
 import { onMounted, ref } from 'vue';
 import { db, st } from '../firebase';
+import Lightbox from '../components/Lightbox.vue';
 
 export default {
+  components: { Lightbox },
   name: 'Home',
   setup() {
     const albums = ref([]);
     const selectAlbum = ref(null);
     const showUpdateBtn = ref(false);
     const selectAlbumTitle = ref(null);
+    const lightboxImgs = ref([]);
+    const lightboxIndex = ref(0);
 
     const layout = () => {
       const numOfImg = albums.value[selectAlbum.value].img.length;
@@ -48,6 +59,10 @@ export default {
       // switch(restt) {
       //  case 25:
       // }
+    };
+    const close = () => {
+      console.log('close');
+      lightboxImgs.value = [];
     };
 
     const select = (i, title) => {
@@ -64,6 +79,8 @@ export default {
 
     const selectItem = (array, i) => {
       console.log(array, i);
+      lightboxImgs.value = array;
+      lightboxIndex.value = i;
     };
 
     const deleteImg = (img, i) => {
@@ -155,6 +172,9 @@ export default {
       showUpdateBtn,
       selectAlbumTitle,
       selectItem,
+      lightboxImgs,
+      lightboxIndex,
+      close,
     };
   },
 };
@@ -164,7 +184,7 @@ ul {
   list-style: none;
   display: flex;
   justify-content: center;
-  margin: 3rem;
+  margin: 10px;
   li {
     font-weight: bold;
     cursor: pointer;
@@ -176,18 +196,25 @@ ul {
   }
 }
 .main {
+  margin: auto;
   padding: 1rem;
   display: flex;
+  justify-content: center;
   flex-direction: row;
   flex-wrap: wrap;
 }
 .gallery__item {
-   width: 25%;
+   margin: 0 2px 2px 2px;
 }
 .gallery__img {
-   width: 100%;
-   height: 100%;
+   width: auto;
+   height: 250px;
    object-fit: cover;
+   cursor: pointer;
+
+   &:hover {
+     box-shadow: 0px 0px 5px 5px rgb(95, 94, 94);
+   }
 }
 
 // .main {
