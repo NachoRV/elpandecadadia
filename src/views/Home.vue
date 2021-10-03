@@ -32,7 +32,7 @@
     >
   </div>
 </section>
-<teleport to="body" v-if="lightboxImgs.length >0">
+<teleport to="body" v-if="showLightbox">
   <lightbox
   :index="lightboxIndex"
   :imgs="lightboxImgs"
@@ -55,6 +55,7 @@ export default {
     const selectAlbumTitle = ref(null);
     const lightboxImgs = ref([]);
     const lightboxIndex = ref(0);
+    const showLightbox = ref(false);
 
     const layout = () => {
       const numOfImg = albums.value[selectAlbum.value].img.length;
@@ -67,7 +68,9 @@ export default {
     };
     const close = () => {
       console.log('close');
+      showLightbox.value = false;
       lightboxImgs.value = [];
+      lightboxIndex.value = 0;
     };
 
     const select = (i, title) => {
@@ -86,8 +89,8 @@ export default {
       console.log(array, i);
       lightboxImgs.value = array;
       lightboxIndex.value = i;
+      showLightbox.value = true;
     };
-
     const deleteImg = (img, i) => {
       const desertRef = st.ref().child(img);
       desertRef.delete().then(() => {
@@ -127,17 +130,14 @@ export default {
     };
 
     const deletePictures = (title) => {
-      let albumIndex;
-      albums.value.forEach((album, index) => {
+      albums.value.forEach((album) => {
         console.log(album.titulo, title);
         if (album.titulo === title) {
-          albumIndex = index;
           album.img.forEach((img, i) => {
             deleteImg(img.name, i);
           });
         }
       });
-      console.log(albums.value, albumIndex);
     };
 
     const getAlbums = () => {
@@ -179,6 +179,7 @@ export default {
       selectItem,
       lightboxImgs,
       lightboxIndex,
+      showLightbox,
       close,
     };
   },
@@ -190,6 +191,7 @@ export default {
   justify-content: center;
   align-items: baseline;
   position: relative;
+  height: 150px;
   a {
     text-decoration: none;
     align-items: center;
@@ -204,7 +206,7 @@ ul {
   list-style: none;
   display: flex;
   justify-content: center;
-  margin: 10px;
+  margin-bottom: 30px;
   li {
     font-weight: bold;
     cursor: pointer;
