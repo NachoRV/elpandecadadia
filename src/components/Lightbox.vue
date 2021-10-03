@@ -86,10 +86,10 @@ export default {
 
 }
 .picture {
-  width: auto;
-  max-width: 85vw;
-  height: 85vh;
-  object-fit: cover;
+  max-width: 90vw;
+  max-height: 90vh;
+  //max-height: 90vh;
+  object-fit: contain;
   box-shadow:  0px 0px 5px 5px white;
 }
  button {
