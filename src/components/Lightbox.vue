@@ -44,7 +44,7 @@ export default {
   setup(props, { emit }) {
     const i = ref(0);
     const next = () => {
-      if (i.value === props.imgs.length) return;
+      if (i.value === props.imgs.length - 1) return;
       i.value += 1;
     };
     const prev = () => {
