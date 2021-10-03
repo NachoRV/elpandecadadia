@@ -1,8 +1,10 @@
 <template>
 <div class="header">
-  <h1>El Pan de Cada día</h1>
   <a href="https://www.instagram.com/elpandecadadia.es/" target="_blank">
     <img class="insta"  src="../assets/instagram.png" alt="insta">
+    <span>
+      elpandecadadia.es
+    </span>
   </a>
 </div>
 <nav>
@@ -186,8 +188,17 @@ export default {
 .header {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: baseline;
   position: relative;
+  a {
+    text-decoration: none;
+    align-items: center;
+    color:black;
+    font-weight: bold;
+    font-size: 40px;
+    height: 100%;
+    display: flex;
+  }
 }
 ul {
   list-style: none;
@@ -207,9 +218,7 @@ ul {
 .insta {
   width: 24px;
   height: 24px;
-  position: absolute;
-  top: 5px;
-  right: 5px;
+  margin-right: 3px;
 }
 .main {
   margin: auto;
