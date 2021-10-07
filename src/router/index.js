@@ -1,7 +1,18 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/Home.vue';
+import Login from '../views/Login.vue';
+import store from '../store';
 
 const routes = [
+  {
+    path: '/:pathMatch(.*)*',
+    redirect: '/',
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: Login,
+  },
   {
     path: '/',
     name: 'Home',
@@ -10,6 +21,9 @@ const routes = [
   {
     path: '/admin/new',
     name: 'Admin',
+    meta: {
+      auth: true,
+    },
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
@@ -26,9 +40,10 @@ const routes = [
   {
     path: '/admin',
     name: 'Album',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
+    meta: {
+      auth: true,
+    },
+
     component: () => import(/* webpackChunkName: "about" */ '../views/AdminAlbums.vue'),
   },
 ];
@@ -36,6 +51,20 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  const usuario = store.state.user.loggedIn;
+  console.log(usuario);
+  const autorizacion = to.matched.some((record) => record.meta.auth);
+
+  if (autorizacion && !usuario) {
+    next('login');
+  } else if (!autorizacion && usuario) {
+    next('home');
+  } else {
+    next();
+  }
 });
 
 export default router;
