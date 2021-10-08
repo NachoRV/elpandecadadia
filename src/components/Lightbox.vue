@@ -1,27 +1,23 @@
 <template>
   <div class="container">
     <button class="close" @click="close">
-      <img
-      class="img__btn"
-      alt="delete"
-      src="../assets/close.svg"
-    />
+      <img class="img__btn" alt="delete" src="../assets/close.svg" />
     </button>
     <button class="prev" @click="prev">
-    <img
-      class="img__btn"
-      alt="delete"
-      src="../assets/back.svg"
-    />
+      <img class="img__btn" alt="delete" src="../assets/back.svg" />
     </button>
-    <h3> {{ imgs[i].title }}</h3>
-    <img class="picture" :src="imgs[i].url" :alt="imgs[i].url">
+    <div class="img__wrapper">
+      <div class="card"  >
+        <span>
+          <h3>{{ imgs[i].title }}</h3>
+          <p>{{ imgs[i].description }}</p>
+        </span>
+      </div>
+      <img class="picture" :src="imgs[i].url" :alt="imgs[i].url" />
+    </div>
+
     <button class="next" @click="next">
-    <img
-      class="img__btn"
-      alt="delete"
-      src="../assets/next.svg"
-    />
+      <img class="img__btn" alt="delete" src="../assets/next.svg" />
     </button>
   </div>
 </template>
@@ -73,29 +69,37 @@ export default {
 <style lang="scss" scoped>
 .container {
   position: fixed;
-  flex-direction: column;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.877);
+  background-color: rgb(0, 0, 0);
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow:hidden;
-
+  overflow: hidden;
 }
 .picture {
-  max-width: 90vw;
-  max-height: 90vh;
-  //max-height: 90vh;
+  max-width: 100vw;
+  max-height: 100vh;
   object-fit: contain;
-  box-shadow:  0px 0px 5px 5px white;
+
 }
- button {
-    background: transparent;
-    border: none;
- }
+button {
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  width: 50px;
+  height: 50px;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+button:hover {
+  background: rgba(53, 52, 52, 0.993);
+}
 
 .close {
   position: absolute;
@@ -117,8 +121,30 @@ export default {
   width: 24px;
   height: 24px;
 }
-h3 {
+.img__wrapper {
+  position: relative;
+}
+.card {
+  z-index: 1;
   color: white;
-  margin: 5px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgba(134, 134, 133, 0.774);
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  span {
+    position: absolute;
+    bottom: 0px;
+    h3, p {
+      margin: 1rem;
+    }
+  }
+
+}
+.card:hover{
+  opacity: 1;
+
 }
 </style>

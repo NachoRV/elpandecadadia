@@ -19,20 +19,16 @@
         </li>
       </ul>
     </nav>
-  <section class="section__masonry" v-if="selectAlbum !== null">
-    <div class="section__masonry-wrapper">
-      <div class="section__masonry-wrapper__item"
-        v-for="(img, index) in albums[selectAlbum].img"
-        :key="img.url"
-        @click="selectItem(albums[selectAlbum].img, index)"
-        >
-        <img :src="img.url" alt=""
-          class="section__masonry-wrapper__item-img
-        ">
-      </div>
 
+  <section v-if="selectAlbum !== null" class="main">
+    <div v-for="(img, index) in albums[selectAlbum].img" :key="img.url" class="gallery__item">
+      <img
+        class="gallery__img"
+        :src="img.url"
+        :alt="img.url"
+        @click="selectItem(albums[selectAlbum].img, index)"
+      />
     </div>
-    <!--Masonry-wrapper-->
   </section>
   <teleport to="body" v-if="showLightbox">
     <lightbox :index="lightboxIndex" :imgs="lightboxImgs" @close="close" />
@@ -236,44 +232,31 @@ ul {
   height: 24px;
   margin-right: 3px;
 }
-
-.section__masonry {
+.main {
+  margin: auto;
+  // padding: 1rem;
   display: flex;
   justify-content: center;
-  margin-top: 5em;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
-
-.section__masonry-wrapper {
-  width: 576px;
-  columns: 2;
-  padding-right: var(--gap-img);
-  padding-left: var(--gap-img);
+.gallery__item {
+  width: 45vw;
+  max-height: 400px;
+  justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
-
-.section__masonry-wrapper__item {
-  width: 100%;
+.gallery__img {
+  max-width: 100%;
+  max-height: 400px;
+  object-fit: contain;
   cursor: pointer;
-}
-.section__masonry-wrapper__item :hover {
-  opacity: 0.6;
-  transition: 0.5s;
-}
-.section__masonry-wrapper__item-img {
-  width: 100%;
-  height: auto;
-  margin-bottom: var(--gap-img);
-}
 
-@media (min-width: 768px) {
-  .section__masonry-wrapper {
-    columns: 3;
-    width: 970px;
-  }
-}
-
-@media (min-width: 992px) {
-  .section__masonry-wrapper {
-    columns: 3;
+  &:hover {
+    box-shadow: 0px 0px 5px 5px rgb(95, 94, 94);
   }
 }
 

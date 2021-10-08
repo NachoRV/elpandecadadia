@@ -5,6 +5,10 @@
 
 <style lang="scss">
 
+:root {
+  --gap-img: 0.8em;
+}
+
 html {
   box-sizing: border-box;
     /* 1rem = 10px */
