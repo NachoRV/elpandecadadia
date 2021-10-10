@@ -1,51 +1,35 @@
 <template>
-
-    <div class="header">
-      <a href="https://www.instagram.com/elpandecadadia.es/" target="_blank">
-        <img class="insta" src="../assets/instagram.png" alt="insta" />
-        <span>
-          elpandecadadia.es
-        </span>
-      </a>
-          <nav>
-      <ul>
-        <li
-          v-for="(album, index) in albums"
-          :key="album.titulo"
-          :class="{ selected: selectAlbumTitle === album.titulo }"
-        >
-          <span @click="select(index, album.titulo)">{{ album.titulo }}</span>
-        </li>
-      </ul>
-    </nav>
-    </div>
-
-  <section class="section__masonry" v-if="selectAlbum !== null">
-    <div class="section__masonry-wrapper">
-      <div class="section__masonry-wrapper__item"
-        v-for="(img, index) in albums[selectAlbum].img"
-        :key="img.url"
-        @click="selectItem(albums[selectAlbum].img, index)"
-        >
-        <img :src="img.url" alt=""
-          class="section__masonry-wrapper__item-img
-        ">
-      </div>
-
-    </div>
-    <!--Masonry-wrapper-->
-  </section>
+  <PublicNav
+    :albums="albums"
+    :selectAlbumTitle="selectAlbumTitle"
+    @selectAlbum="select"
+  />
+  <Avatar v-if="selectAlbum === null"/>
+  <Masonry
+    v-else
+    :album="albums[selectAlbum]"
+    @selectItem="selectItem"
+  />
   <teleport to="body" v-if="showLightbox">
-    <lightbox :index="lightboxIndex" :imgs="lightboxImgs" @close="close" />
+    <lightbox
+      :index="lightboxIndex"
+      :imgs="lightboxImgs"
+      @close="close"
+    />
   </teleport>
 </template>
 <script>
 import { onMounted, ref } from 'vue';
-import { db, st } from '../firebase';
-import Lightbox from '../components/Lightbox.vue';
+import { db, st } from '@/firebase';
+import Lightbox from '@/components/Lightbox.vue';
+import PublicNav from '@/components/PublicNav.vue';
+import Masonry from '@/components/Masonry.vue';
+import Avatar from '@/components/Avatar.vue';
 
 export default {
-  components: { Lightbox },
+  components: {
+    Lightbox, PublicNav, Masonry, Avatar,
+  },
   name: 'Home',
   setup() {
     const albums = ref([]);
@@ -198,91 +182,5 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.header {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: baseline;
-  position: relative;
-  height: 300px;
-  background: url('../assets/IMG_1288.jpg');
-  background-repeat: no-repeat;
-  background-size: cover;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  a {
-    text-decoration: none;
-    align-items: center;
-    color: white;
-    font-weight: bold;
-    font-size: 40px;
-    height: 100%;
-    display: flex;
-  }
-}
-ul {
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-bottom: 0px;
-
-  li {
-    font-weight: bold;
-    cursor: pointer;
-    margin: 0 1rem;
-  }
-
-  .selected {
-    border-bottom: 3px solid white;
-    color: white;
-  }
-}
-.insta {
-  width: 24px;
-  height: 24px;
-  margin-right: 3px;
-}
-
-.section__masonry {
-  display: flex;
-  justify-content: center;
-  margin-top: 5em;
-}
-
-.section__masonry-wrapper {
-  width: 576px;
-  columns: 2;
-  padding-right: var(--gap-img);
-  padding-left: var(--gap-img);
-}
-
-.section__masonry-wrapper__item {
-  width: 100%;
-  cursor: pointer;
-}
-.section__masonry-wrapper__item :hover {
-  opacity: 0.6;
-  transition: 0.5s;
-}
-.section__masonry-wrapper__item-img {
-  width: 100%;
-  height: auto;
-  margin-bottom: var(--gap-img);
-}
-
-@media (min-width: 768px) {
-  .section__masonry-wrapper {
-    columns: 3;
-    width: 970px;
-  }
-}
-
-@media (min-width: 992px) {
-  .section__masonry-wrapper {
-    columns: 3;
-  }
-}
 
 </style>
