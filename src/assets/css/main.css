@@ -1,0 +1,32 @@
+:root {
+  --main-color: #2c3e50;
+  --black: black;
+  --white: white;
+  --grey: rgb(212, 211, 211);
+  --gap-img: 0.8em;
+}
+
+html {
+  box-sizing: border-box;
+    /* 1rem = 10px */
+  font-size: 62.5%;
+  height: 100%;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body {
+  font-size: 1.6rem;
+  margin: 0px;
+  height: 100%;
+}
+
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  height: 100%;
+}

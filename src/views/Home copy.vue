@@ -8,27 +8,21 @@
         </span>
       </a>
     </div>
-    <nav>
-      <ul>
-        <li
-          v-for="(album, index) in albums"
-          :key="album.titulo"
-          :class="{ selected: selectAlbumTitle === album.titulo }"
-        >
-          <span @click="select(index, album.titulo)">{{ album.titulo }}</span>
-        </li>
-      </ul>
-    </nav>
 
-  <section v-if="selectAlbum !== null" class="main">
-    <div v-for="(img, index) in albums[selectAlbum].img" :key="img.url" class="gallery__item">
-      <img
-        class="gallery__img"
-        :src="img.url"
-        :alt="img.url"
+  <section class="section__masonry" v-if="selectAlbum !== null">
+    <div class="section__masonry-wrapper">
+      <div class="section__masonry-wrapper__item"
+        v-for="(img, index) in albums[selectAlbum].img"
+        :key="img.url"
         @click="selectItem(albums[selectAlbum].img, index)"
-      />
+        >
+        <img :src="img.url" alt=""
+          class="section__masonry-wrapper__item-img
+        ">
+      </div>
+
     </div>
+    <!--Masonry-wrapper-->
   </section>
   <teleport to="body" v-if="showLightbox">
     <lightbox :index="lightboxIndex" :imgs="lightboxImgs" @close="close" />
@@ -195,14 +189,21 @@ export default {
 <style lang="scss" scoped>
 .header {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: baseline;
   position: relative;
-  height: 150px;
+  height: 300px;
+  background: url('../assets/IMG_1288.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  justify-content: center;
+  align-items: center;
+  color: white;
   a {
     text-decoration: none;
     align-items: center;
-    color: black;
+    color: white;
     font-weight: bold;
     font-size: 40px;
     height: 100%;
@@ -212,9 +213,9 @@ export default {
 ul {
   list-style: none;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  margin-bottom: 30px;
-  border-bottom: .3px solid rgb(218, 216, 216);
+  margin-bottom: 0px;
 
   li {
     font-weight: bold;
@@ -223,8 +224,8 @@ ul {
   }
 
   .selected {
-    border-bottom: 3px solid #42b983;;
-    color: #42b983;
+    border-bottom: 3px solid white;
+    color: white;
   }
 }
 .insta {
@@ -232,31 +233,44 @@ ul {
   height: 24px;
   margin-right: 3px;
 }
-.main {
-  margin: auto;
-  // padding: 1rem;
+
+.section__masonry {
   display: flex;
   justify-content: center;
-  align-items: center;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 1rem;
+  margin-top: 5em;
 }
-.gallery__item {
-  width: 45vw;
-  max-height: 400px;
-  justify-content: center;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-.gallery__img {
-  max-width: 100%;
-  max-height: 400px;
-  object-fit: contain;
-  cursor: pointer;
 
-  &:hover {
-    box-shadow: 0px 0px 5px 5px rgb(95, 94, 94);
+.section__masonry-wrapper {
+  width: 576px;
+  columns: 2;
+  padding-right: var(--gap-img);
+  padding-left: var(--gap-img);
+}
+
+.section__masonry-wrapper__item {
+  width: 100%;
+  cursor: pointer;
+}
+.section__masonry-wrapper__item :hover {
+  opacity: 0.6;
+  transition: 0.5s;
+}
+.section__masonry-wrapper__item-img {
+  width: 100%;
+  height: auto;
+  margin-bottom: var(--gap-img);
+}
+
+@media (min-width: 768px) {
+  .section__masonry-wrapper {
+    columns: 3;
+    width: 970px;
+  }
+}
+
+@media (min-width: 992px) {
+  .section__masonry-wrapper {
+    columns: 3;
   }
 }
 
