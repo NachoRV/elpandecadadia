@@ -59,13 +59,16 @@ export default {
 <style lang="scss" scoped>
 nav {
   position: relative;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
 }
 .icons-nav {
   display: flex;
   justify-content: center;
   align-items: center;
   position: absolute;
-  top: 0;
+  top: 1rem;
   right: 2rem;
   cursor: pointer;
   img {
@@ -80,7 +83,7 @@ ul {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin-bottom: 0px;
+  margin: 0px;
 
   li {
     font-weight: bold;
@@ -88,6 +91,8 @@ ul {
     margin: 0 1rem;
     padding: 1rem 2rem;
     border-radius: 5px;
+    color: var(--white);
+    border-bottom: 5px solid transparent;
   }
   li:hover {
     color: var(--black);
@@ -96,8 +101,8 @@ ul {
 
   .selected {
     border-radius: 0px;
-    border-bottom: 3px solid var(--grey);
-    color: var(--black);
+    border-bottom: 5px solid var(--white);
+    color: var(--white);
   }
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="avatar">
-    <img src="../assets/IMG_2792.jpg" alt="elpandecadadia" />
+   <!-- <img src="../assets/IMG_2792.jpg" alt="elpandecadadia" /> -->
     <div class="header">
       <a href="https://www.instagram.com/elpandecadadia.es/" target="_blank">
         <img class="insta" src="../assets/instagram.png" alt="insta" />
@@ -13,7 +13,7 @@
 </template>
 <style lang="scss" scoped>
 .avatar {
-  height: 100%;
+  margin-top: 5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;

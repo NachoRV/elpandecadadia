@@ -1,9 +1,11 @@
 <template>
-  <PublicNav
+<div class="nav">
+    <PublicNav
     :albums="albums"
     :selectAlbumTitle="selectAlbumTitle"
     @selectAlbum="select"
   />
+</div>
   <Avatar v-if="selectAlbum === null"/>
   <Masonry
     v-else
@@ -182,5 +184,10 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-
+.nav {
+  height: 250px;
+  background: url('../assets/IMG_1288.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 </style>
