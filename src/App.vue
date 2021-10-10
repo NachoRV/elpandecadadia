@@ -20,6 +20,7 @@ html {
 
 body {
   font-size: 1.6rem;
+  margin: 0px;
 }
 
 #app {

@@ -7,8 +7,7 @@
           elpandecadadia.es
         </span>
       </a>
-    </div>
-    <nav>
+          <nav>
       <ul>
         <li
           v-for="(album, index) in albums"
@@ -19,6 +18,8 @@
         </li>
       </ul>
     </nav>
+    </div>
+
   <section class="section__masonry" v-if="selectAlbum !== null">
     <div class="section__masonry-wrapper">
       <div class="section__masonry-wrapper__item"
@@ -199,14 +200,21 @@ export default {
 <style lang="scss" scoped>
 .header {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: baseline;
   position: relative;
-  height: 150px;
+  height: 300px;
+  background: url('../assets/IMG_1288.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  justify-content: center;
+  align-items: center;
+  color: white;
   a {
     text-decoration: none;
     align-items: center;
-    color: black;
+    color: white;
     font-weight: bold;
     font-size: 40px;
     height: 100%;
@@ -216,9 +224,9 @@ export default {
 ul {
   list-style: none;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  margin-bottom: 30px;
-  border-bottom: .3px solid rgb(218, 216, 216);
+  margin-bottom: 0px;
 
   li {
     font-weight: bold;
@@ -227,8 +235,8 @@ ul {
   }
 
   .selected {
-    border-bottom: 3px solid #42b983;;
-    color: #42b983;
+    border-bottom: 3px solid white;
+    color: white;
   }
 }
 .insta {
