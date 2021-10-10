@@ -59,9 +59,13 @@ export default {
 <style lang="scss" scoped>
 nav {
   position: relative;
-  height: 100%;
+  min-height: 300px;
+  width: 100vw;
   display: flex;
   align-items: flex-end;
+  // background: url('../assets/IMG_1288.jpg');
+  // background-repeat: no-repeat;
+  // background-size: cover;
 }
 .icons-nav {
   display: flex;
