@@ -45,7 +45,7 @@ export default {
 }
 
 .section__masonry-wrapper {
-  width: 576px;
+  width: 95vw;
   columns: 2;
   padding-right: var(--gap-img);
   padding-left: var(--gap-img);
@@ -68,13 +68,24 @@ export default {
 @media (min-width: 768px) {
   .section__masonry-wrapper {
     columns: 3;
-    width: 970px;
   }
 }
 
 @media (min-width: 992px) {
   .section__masonry-wrapper {
     columns: 3;
+  }
+}
+
+@media (min-width: 1092px) {
+  .section__masonry-wrapper {
+    columns: 4;
+  }
+}
+
+@media (min-width: 4092px) {
+  .section__masonry-wrapper {
+    columns: 5;
   }
 }
 

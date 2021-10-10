@@ -186,6 +186,8 @@ export default {
 <style lang="scss" scoped>
 .nav {
   // min-height: 250px;
+  display: flex;
+  justify-content: center;
   min-width: 100vh;
   background: url('../assets/IMG_1288.jpg');
   background-repeat: no-repeat;
