@@ -5,32 +5,6 @@
 
 <style lang="scss">
 
-:root {
-  --gap-img: 0.8em;
-}
-
-html {
-  box-sizing: border-box;
-    /* 1rem = 10px */
-  font-size: 62.5%;
-}
-*, *:before, *:after {
-  box-sizing: inherit;
-}
-
-body {
-  font-size: 1.6rem;
-  margin: 0px;
-}
-
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
 #nav {
   padding: 30px;
 
