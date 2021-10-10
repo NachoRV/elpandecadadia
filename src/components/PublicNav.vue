@@ -1,5 +1,5 @@
 <template>
-  <nav>
+  <nav :style="{ height:h}">
     <ul>
       <li
         v-for="(album, index) in albums"
@@ -23,6 +23,8 @@
   </nav>
 </template>
 <script>
+import { onMounted, ref } from 'vue';
+
 export default {
   name: 'PublicNav',
   props: {
@@ -39,6 +41,7 @@ export default {
   setup(props, { emit }) {
     let albumTitle;
     let index;
+    const h = ref('300');
     const goHome = () => {
       albumTitle = null;
       index = null;
@@ -49,9 +52,16 @@ export default {
       index = i;
       emit('selectAlbum', i, title);
     };
+    const size = () => {
+      h.value = `${(window.innerWidth * 22.45) / 100}px`;
+    };
+    onMounted(() => {
+      window.addEventListener('resize', size);
+    });
     return {
       select,
       goHome,
+      h,
     };
   },
 };
@@ -59,13 +69,9 @@ export default {
 <style lang="scss" scoped>
 nav {
   position: relative;
-  min-height: 300px;
-  width: 100vw;
+  height: 236.39849999999998px;
   display: flex;
   align-items: flex-end;
-  // background: url('../assets/IMG_1288.jpg');
-  // background-repeat: no-repeat;
-  // background-size: cover;
 }
 .icons-nav {
   display: flex;
