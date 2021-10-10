@@ -40,6 +40,7 @@ img {
     font-size: 40px;
     height: 100%;
     display: flex;
+    font-size: 16px;
   }
   img {
     width: 30px;
@@ -47,4 +48,18 @@ img {
     margin-right: .5rem;
   }
 }
+
+@media (min-width: 500px) {
+  .header {
+    a {
+    font-size: 30px;
+    }
+  }
+  img {
+    width: 30px;
+    height: 30px;
+    margin-right: .5rem;
+  }
+}
+
 </style>

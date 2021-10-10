@@ -185,9 +185,20 @@ export default {
 </script>
 <style lang="scss" scoped>
 .nav {
-  height: 250px;
+  // min-height: 250px;
+  min-width: 100vh;
   background: url('../assets/IMG_1288.jpg');
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: 100% 100%;
+}
+@media (min-width: 1920px) {
+ .nav {
+  min-height: 400px;
+  min-width: 100vh;
+  background: url('../assets/IMG_1288.jpg');
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
 }
 </style>
