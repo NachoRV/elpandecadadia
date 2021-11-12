@@ -44,7 +44,7 @@ export default {
   setup(props, { emit }) {
     let albumTitle;
     let index;
-    const h = ref('300');
+    const h = ref(`${(window.innerWidth * 22.45) / 100}px`);
     const goHome = () => {
       albumTitle = null;
       index = null;
@@ -58,6 +58,7 @@ export default {
     const size = () => {
       h.value = `${(window.innerWidth * 22.45) / 100}px`;
     };
+
     onBeforeMount(() => {
       window.addEventListener('resize', size);
     });
