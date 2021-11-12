@@ -23,7 +23,7 @@
   </nav>
 </template>
 <script>
-import { onMounted, ref } from 'vue';
+import { onBeforeMount, ref } from 'vue';
 
 export default {
   name: 'PublicNav',
@@ -55,7 +55,7 @@ export default {
     const size = () => {
       h.value = `${(window.innerWidth * 22.45) / 100}px`;
     };
-    onMounted(() => {
+    onBeforeMount(() => {
       window.addEventListener('resize', size);
     });
     return {
