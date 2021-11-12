@@ -13,7 +13,6 @@
 </template>
 <style lang="scss" scoped>
 .avatar {
-  margin-top: 5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -25,13 +24,12 @@ img {
   border-radius: 50%;
 }
 .header {
-  margin-top: 4rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   justify-content: center;
   align-items: center;
-  color: var(--black);
+  color: var(--white);
   a {
     text-decoration: none;
     align-items: center;

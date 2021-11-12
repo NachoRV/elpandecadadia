@@ -6,9 +6,7 @@
     @selectAlbum="select"
   />
 </div>
-  <Avatar v-if="selectAlbum === null"/>
   <Masonry
-    v-else
     :album="albums[selectAlbum]"
     @selectItem="selectItem"
   />
@@ -26,11 +24,10 @@ import { db, st } from '@/firebase';
 import Lightbox from '@/components/Lightbox.vue';
 import PublicNav from '@/components/PublicNav.vue';
 import Masonry from '@/components/Masonry.vue';
-import Avatar from '@/components/Avatar.vue';
 
 export default {
   components: {
-    Lightbox, PublicNav, Masonry, Avatar,
+    Lightbox, PublicNav, Masonry,
   },
   name: 'Home',
   setup() {

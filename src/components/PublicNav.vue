@@ -20,13 +20,16 @@
         <img class="insta" src="../assets/instagram.svg" alt="insta" width="20" />
       </a>
     </div>
+    <Avatar class="avatar" />
   </nav>
 </template>
 <script>
 import { onBeforeMount, ref } from 'vue';
+import Avatar from './Avatar.vue';
 
 export default {
   name: 'PublicNav',
+  components: { Avatar },
   props: {
     albums: {
       type: Array,
@@ -100,13 +103,14 @@ ul {
     cursor: pointer;
     margin: 0 1rem;
     padding: 1rem 2rem;
-    border-radius: 5px;
+    border-radius: 5px 5px 0 0;
     color: var(--white);
     border-bottom: 5px solid transparent;
   }
   li:hover {
     color: var(--black);
     background-color: var(--grey);
+    border-bottom: 5px solid transparent;
   }
 
   .selected {
@@ -114,5 +118,12 @@ ul {
     border-bottom: 5px solid var(--white);
     color: var(--white);
   }
+}
+
+.avatar {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 </style>
