@@ -24,6 +24,7 @@ export default {
     const filesUrl = [];
     const uploadImg = () => {
       files.value.forEach((img) => {
+        console.log(img);
         const storageRef = st.ref(props.album).child(`${img.name}`).put(img);
         storageRef.on('state_changed', (snapshot) => {
           const uploadValue = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;

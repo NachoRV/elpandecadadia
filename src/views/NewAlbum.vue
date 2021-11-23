@@ -127,7 +127,6 @@ export default {
   max-width: 900px;
   margin: auto;
   padding: 1rem;
-  height: 100%;
   position: relative;
 }
 
@@ -150,7 +149,7 @@ export default {
   margin-bottom: 4rem;
 
   input {
-    width: 50%;
+    width: 55%;
     background-color: transparent;
     font-size: 3rem;
     font-weight: bold;

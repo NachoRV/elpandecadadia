@@ -1,8 +1,13 @@
 <template>
   <div id="nav">
-    <router-link to="/admin/new">Crear Exposicion</router-link> |
-    <router-link to="/admin">Exposiciones</router-link>
-    <button @click="logout">logOut</button>
+    <div>
+      <router-link to="/admin/new">Crear Exposicion</router-link> |
+      <router-link to="/admin">Exposiciones</router-link>
+    </div>
+    <button @click="logout">
+       <img class="insta" src="../assets/exit.svg" alt="insta" width="20" />
+       salir
+    </button>
   </div>
 </template>
 <script>
@@ -29,14 +34,30 @@ export default {
 <style lang="scss" scoped>
 #nav {
   padding: 30px;
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--main-color);
+  columns: var(--white);
 
 a {
     font-weight: bold;
-    color: #2c3e50;
+    color: var(--green);
 
     &.router-link-exact-active {
-      color: #42b983;
+      color: var(--green);
+      border-bottom: 3px solid var(--green);
     }
   }
+}
+
+button {
+  display: flex;
+  justify-content: space-between;
+  gap: .5rem;
+  align-items: center;
+  border: none;
+  background: transparent;
+  color: var(--green);
+  cursor: pointer;
 }
 </style>

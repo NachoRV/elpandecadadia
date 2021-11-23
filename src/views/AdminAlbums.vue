@@ -16,6 +16,7 @@
   <button v-if="showUpdateBtn" @click="update" class="update">Guardar</button>
 </div>
 <section v-if="selectAlbum !== null" class="main">
+  <UploadImages @changed="handleImages" />
   <ImgCardAdmin
     v-for="(img, index) in albums[selectAlbum].img"
     :key="img.url"
@@ -29,13 +30,14 @@
 </template>
 <script>
 import { onMounted, ref } from 'vue';
+import ImgCardAdmin from '@/components/ImgCardAdmin.vue';
+import UploadImages from '@/components/vue-upload-drop-images.vue';
 import { db, st } from '../firebase';
-import ImgCardAdmin from '../components/ImgCardAdmin.vue';
 import Nav from '../components/Nav.vue';
 
 export default {
-  components: { ImgCardAdmin, Nav },
   name: 'AdminAlbums',
+  components: { ImgCardAdmin, Nav, UploadImages },
   setup() {
     // st.ref().getDownloadURL();
     const albums = ref([]);
@@ -54,6 +56,7 @@ export default {
       console.log(selectAlbumTitle.value);
     };
     const deleteImg = (img, i) => {
+      console.log(img, i);
       const desertRef = st.ref().child(img);
       desertRef.delete().then(() => {
         // File deleted successfully
@@ -92,17 +95,14 @@ export default {
     };
 
     const deletePictures = (title) => {
-      let albumIndex;
-      albums.value.forEach((album, index) => {
+      albums.value.forEach((album) => {
         console.log(album.titulo, title);
         if (album.titulo === title) {
-          albumIndex = index;
           album.img.forEach((img, i) => {
             deleteImg(img.name, i);
           });
         }
       });
-      console.log(albums.value, albumIndex);
     };
 
     const getAlbums = () => {
@@ -125,6 +125,41 @@ export default {
         .catch((error) => {
           console.error('Error removing document: ', error);
         });
+    };
+
+    const uploadImg = (img) => {
+      console.log(img);
+      if (!img) return;
+      const storageRef = st.ref(selectAlbumTitle.value).child(`${img.name}`).put(img);
+      storageRef.on('state_changed', (snapshot) => {
+        const uploadValue = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log(uploadValue);
+        document.getElementById('reset').dispatchEvent(new MouseEvent('click', { bubbles: true, cancellable: true }));
+      },
+      (error) => { console.log(error.message); },
+      () => {
+        storageRef.snapshot.ref.getDownloadURL().then((url) => {
+          console.log(url);
+          console.log(albums.value[selectAlbum.value].img);
+          if (!albums.value[selectAlbum.value].img.includes(url)) {
+            const newFoto = {
+              url,
+              name: `${selectAlbumTitle.value}/${img.name}`,
+              title: '',
+              description: '',
+            };
+            albums.value[selectAlbum.value].img.push(newFoto);
+            console.log(albums.value[selectAlbum.value].img);
+            update();
+          }
+        });
+      });
+    };
+
+    const handleImages = (e) => {
+      if (e) {
+        uploadImg(e[0]);
+      }
     };
 
     onMounted(async () => {
@@ -150,6 +185,7 @@ export default {
       setDescription,
       showUpdateBtn,
       selectAlbumTitle,
+      handleImages,
     };
   },
 };

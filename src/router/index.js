@@ -55,7 +55,6 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const usuario = store.state.user.loggedIn;
-  console.log(usuario);
   const autorizacion = to.matched.some((record) => record.meta.auth);
 
   if (autorizacion && !usuario) {

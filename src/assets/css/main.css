@@ -4,6 +4,7 @@
   --white: white;
   --grey: rgb(212, 211, 211);
   --gap-img: 0.8em;
+  --green: #42b983;
 }
 
 html {
@@ -29,4 +30,9 @@ body {
   text-align: center;
   color: #2c3e50;
   height: 100%;
+}
+
+a {
+ text-decoration: none;
+ color: var(--black); 
 }
