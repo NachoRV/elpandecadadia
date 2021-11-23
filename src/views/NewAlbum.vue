@@ -9,7 +9,7 @@
         placeholder="Ttulo de la exposición"
         @change="showError" />
     </div>
-    <Upload :album="album.titulo" @save="save" />
+    <Upload v-if="album.titulo.length >= 1 " :album="album.titulo" @save="save" />
     <section class="album-data">
       <img-card-admin
         v-for="(img, index) in album.img"
@@ -126,7 +126,7 @@ export default {
 .container {
   max-width: 900px;
   margin: auto;
-  padding: 1rem;
+  padding: 5rem 1rem;
   position: relative;
 }
 

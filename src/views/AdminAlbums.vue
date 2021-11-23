@@ -199,6 +199,8 @@ export default {
   justify-content: flex-start;
   align-items: flex-start;
   margin: 2rem 0;
+  max-width: 900px;
+  margin: auto;
 }
 .delete-album {
   background-color: red;
@@ -211,11 +213,12 @@ export default {
 ul {
   list-style: none;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   margin: 3rem;
 
   li {
     font-weight: bold;
+    margin: 0 1em;
   }
 
   .selected {
@@ -227,6 +230,7 @@ ul {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 2rem;
 
   button {
     padding: 0.5rem;

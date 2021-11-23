@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/Home.vue';
 import Login from '../views/Login.vue';
 import store from '../store';
+import { getCookie } from '../utils';
 
 const routes = [
   {
@@ -53,14 +54,26 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
-  const usuario = store.state.user.loggedIn;
+router.beforeEach(async (to, from, next) => {
+  let usuario = store.state.user.loggedIn;
   const autorizacion = to.matched.some((record) => record.meta.auth);
+  console.log(usuario);
+  let hasSesion = false;
 
+  if (!usuario) {
+    hasSesion = getCookie('isAuthenticated');
+    console.log(hasSesion);
+    if (hasSesion) {
+      const user = JSON.parse(hasSesion);
+      await store.dispatch('fetchUser', user);
+      store.state.user.loggedIn = true;
+      usuario = true;
+    }
+  }
   if (autorizacion && !usuario) {
     next('login');
-  } else if (!autorizacion && usuario) {
-    next('home');
+  } else if (autorizacion && usuario) {
+    next();
   } else {
     next();
   }

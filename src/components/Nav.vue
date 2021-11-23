@@ -22,6 +22,7 @@ export default {
 
     const logout = () => {
       firebase.auth().signOut();
+      document.cookie = 'isAuthenticated=;expires=Thu, 01 Jan 1970 00:00:00 GMT';
       store.commit('LOGOUT_USER');
       router.push('/login');
     };
@@ -59,5 +60,6 @@ button {
   background: transparent;
   color: var(--green);
   cursor: pointer;
+  font-size: 1.6rem;
 }
 </style>

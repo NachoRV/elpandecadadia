@@ -9,7 +9,7 @@
           <input v-model="user" type="text" placeholder="Usuario" />
         </div>
         <div>
-           <input v-model="password" type="password" placeholder="Cpntraseña" />
+           <input v-model="password" type="password" placeholder="Contraseña" />
         </div>
         <button type="submit">login</button>
       </form>
@@ -35,6 +35,8 @@ export default {
         .auth()
         .signInWithEmailAndPassword(user.value, password.value)
         .then((data) => {
+          document.cookie = `isAuthenticated=${JSON.stringify(data)}`;
+          console.log(data);
           store.dispatch('fetchUser', data);
           router.push('/admin/new');
         })
