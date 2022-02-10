@@ -1,7 +1,7 @@
 <template>
 <Nav />
   <div class="container">
-    <span class="error" v-if="hasError">* Falta el título de la exposicion </span>
+    <span class="error" v-if="hasError">* Falta el título de la exposición </span>
     <div class="title">
       <input
         type="text"

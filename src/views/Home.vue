@@ -1,21 +1,14 @@
 <template>
-<div class="nav">
+  <div class="nav">
     <PublicNav
-    :albums="albums"
-    :selectAlbumTitle="selectAlbumTitle"
-    @selectAlbum="select"
-  />
-</div>
-  <Masonry
-    :album="albums[selectAlbum]"
-    @selectItem="selectItem"
-  />
-  <teleport to="body" v-if="showLightbox">
-    <lightbox
-      :index="lightboxIndex"
-      :imgs="lightboxImgs"
-      @close="close"
+      :albums="albums"
+      :selectAlbumTitle="selectAlbumTitle"
+      @selectAlbum="select"
     />
+  </div>
+  <Masonry :album="albums[selectAlbum]" @selectItem="selectItem" />
+  <teleport to="body" v-if="showLightbox">
+    <lightbox :index="lightboxIndex" :imgs="lightboxImgs" @close="close" />
   </teleport>
 </template>
 <script>
@@ -141,6 +134,7 @@ export default {
             albums.value.push(doc.data());
           });
         });
+      console.log('Data', albums.value);
     };
 
     const deleteAlbum = () => {
@@ -186,18 +180,17 @@ export default {
   display: flex;
   justify-content: center;
   min-width: 100vh;
-  background: url('../assets/IMG_1288.jpg');
+  background: url("../assets/IMG_1288.jpg");
   background-repeat: no-repeat;
   background-size: 100% 100%;
 }
 @media (min-width: 1920px) {
- .nav {
-  min-height: 400px;
-  min-width: 100vh;
-  background: url('../assets/IMG_1288.jpg');
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-}
-
+  .nav {
+    min-height: 400px;
+    min-width: 100vh;
+    background: url("../assets/IMG_1288.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+  }
 }
 </style>

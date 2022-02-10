@@ -1,7 +1,7 @@
 <template>
   <div id="nav">
     <div>
-      <router-link to="/admin/new">Crear Exposicion</router-link> |
+      <router-link to="/admin/new">Crear Exposición</router-link> |
       <router-link to="/admin">Exposiciones</router-link>
     </div>
     <button @click="logout">

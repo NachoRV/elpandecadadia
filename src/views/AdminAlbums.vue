@@ -25,6 +25,7 @@
     @deleteImg="deleteImg"
     @setTitle="setTitle"
     @setDescription="setDescription"
+    @setOrder="setOrder"
   />
 </section>
 </template>
@@ -81,6 +82,12 @@ export default {
     const setDescription = (description, i) => {
       console.log(description, i);
       albums.value[selectAlbum.value].img[i].description = description;
+      showUpdateBtn.value = true;
+    };
+
+    const setOrder = (position, i) => {
+      console.log(position, i);
+      albums.value[selectAlbum.value].img[i].position = position;
       showUpdateBtn.value = true;
     };
 
@@ -186,6 +193,7 @@ export default {
       showUpdateBtn,
       selectAlbumTitle,
       handleImages,
+      setOrder,
     };
   },
 };

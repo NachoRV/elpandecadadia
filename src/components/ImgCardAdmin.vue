@@ -13,6 +13,12 @@
       placeholder="Título"
       @change="setTitle"
     />
+    <input
+      type="number"
+      v-model="order"
+      placeholder="Título"
+      @change="setOrder"
+    />
     <textarea
       maxlength="200"
       v-model="description"
@@ -36,16 +42,20 @@ export default {
       required: true,
     },
   },
-  events: ['setTitle', 'setDescription', 'deleteImg'],
+  events: ['setTitle', 'setDescription', 'deleteImg', 'setOrder'],
   setup(props, { emit }) {
     const title = ref('');
     const description = ref('');
+    const order = ref(0);
 
     const setTitle = () => {
       emit('setTitle', title.value, props.index);
     };
     const setDescription = () => {
       emit('setDescription', description.value, props.index);
+    };
+    const setOrder = () => {
+      emit('setOrder', order.value, props.index);
     };
 
     const deleteImg = () => {
@@ -59,6 +69,9 @@ export default {
       if (props.img.description) {
         description.value = props.img.description;
       }
+      if (props.img.position) {
+        order.value = props.img.position;
+      }
     });
 
     return {
@@ -67,6 +80,8 @@ export default {
       setTitle,
       setDescription,
       deleteImg,
+      setOrder,
+      order,
     };
   },
 };
@@ -95,7 +110,7 @@ export default {
     width: 90%;
     margin: 0.5rem auto;
     resize: none;
-    height: 12.5rem;
+    min-height: 5rem;
   }
 
     textarea:focus {

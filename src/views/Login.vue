@@ -36,7 +36,6 @@ export default {
         .signInWithEmailAndPassword(user.value, password.value)
         .then((data) => {
           document.cookie = `isAuthenticated=${JSON.stringify(data)}`;
-          console.log(data);
           store.dispatch('fetchUser', data);
           router.push('/admin/new');
         })
