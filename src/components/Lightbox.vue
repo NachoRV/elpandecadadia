@@ -55,7 +55,7 @@ export default {
     onMounted(() => {
       i.value = props.index;
       console.log(props.index);
-      console.log(props.imgs);
+      console.log(props.imgs[i.value]);
     });
     return {
       i,
@@ -107,6 +107,14 @@ button:hover {
   right: 10px;
   cursor: pointer;
 }
+
+.chat {
+  position: absolute;
+  top: 10px;
+  right: 50px;
+  cursor: pointer;
+}
+
 .next {
   position: absolute;
   right: 5px;
