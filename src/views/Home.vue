@@ -6,7 +6,7 @@
     <a v-for="p in picture" :key="p" href="#"><img :src="p"></a>
   </div>
 
-  <Masonry :album="albums[selectAlbum]" @selectItem="selectItem" />
+  <Masonry v-else :album="albums[selectAlbum]" @selectItem="selectItem" />
   <teleport to="body" v-if="showLightbox">
     <lightbox :index="lightboxIndex" :imgs="lightboxImgs" @close="close" />
   </teleport>
