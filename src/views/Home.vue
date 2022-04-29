@@ -14,6 +14,7 @@
 <script setup>
 import TheNav from '@/components/TheNav.vue';
 import Masonry from '@/components/Masonry.vue';
+import Lightbox from '../components/Lightbox.vue';
 import { onMounted, ref } from 'vue';
 import { db } from '@/firebase';
 

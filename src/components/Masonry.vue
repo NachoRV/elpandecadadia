@@ -49,7 +49,7 @@ export default {
 
 .section__masonry-wrapper {
   width: 95vw;
-  columns: 2;
+  columns: 1;
   padding-right: var(--gap-img);
   padding-left: var(--gap-img);
 }
@@ -70,25 +70,32 @@ export default {
   margin-bottom: var(--gap-img);
 }
 
-@media (min-width: 768px) {
+@media screen and (min-width: 568px) {
+  .section__masonry-wrapper {
+    columns: 2;
+  }
+}
+
+
+@media screen and (min-width: 768px) {
   .section__masonry-wrapper {
     columns: 3;
   }
 }
 
-@media (min-width: 992px) {
+@media screen and (min-width: 992px) {
   .section__masonry-wrapper {
     columns: 3;
   }
 }
 
-@media (min-width: 1092px) {
+@media screen and (min-width: 1092px) {
   .section__masonry-wrapper {
     columns: 4;
   }
 }
 
-@media (min-width: 4092px) {
+@media screen and (min-width: 4092px) {
   .section__masonry-wrapper {
     columns: 5;
   }
