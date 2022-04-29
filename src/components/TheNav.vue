@@ -9,9 +9,9 @@
         </li>
       </ul>
       <div class="social">
-        <router-link to="/">
-          <img class="insta" src="../assets/home.svg" alt="insta" width="30" />
-        </router-link>
+
+        <img @click="goHome" class="insta" src="../assets/home.svg" alt="insta" width="30" />
+
         <a href="https://www.instagram.com/elpandecadadia.es/" target="_blank">
           <img class="insta" src="../assets/instagram.svg" alt="insta" width="30" />
         </a>
@@ -27,8 +27,8 @@ import { defineProps, defineEmits, ref } from 'vue';
 
 defineProps({
   albums: {
-    type: Array,
-    default: () => [],
+    type: [Array, Object],
+    default: () => { },
   },
   selectAlbumTitle: {
     type: String,
@@ -42,6 +42,9 @@ const navLink = ref(null);
 const select = (i, title) => {
   console.log(i, title);
   emit('selectAlbum', i, title);
+};
+const goHome = () => {
+  emit('selectAlbum', null, null);
 };
 
 function showMenu() {
@@ -58,6 +61,7 @@ function showMenu() {
   color: var(--white);
   height: 65px;
   padding: 0 30px;
+  box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.6);
 }
 
 .nav-links {
@@ -125,6 +129,8 @@ function showMenu() {
   .show {
     visibility: visible;
     opacity: 1;
+    box-shadow: -3px 0px 3px 0px rgba(0, 0, 0, 0.6);
+    ;
   }
 
   .items {

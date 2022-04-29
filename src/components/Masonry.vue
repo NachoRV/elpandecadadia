@@ -1,17 +1,9 @@
 <template>
   <section class="section__masonry">
     <div class="section__masonry-wrapper">
-      <div
-        class="section__masonry-wrapper__item"
-        v-for="(img, index) in getImg"
-        :key="img.url"
-        @click="selectItem(album.img, index)"
-      >
-        <img
-          :src="img.url"
-          alt=""
-          class="section__masonry-wrapper__item-img"
-        />
+      <div class="section__masonry-wrapper__item" v-for="(img, index) in getImg" :key="img.url"
+        @click="selectItem(album.img, index)">
+        <img :src="img.url" alt="" class="section__masonry-wrapper__item-img" />
       </div>
     </div>
   </section>
@@ -23,8 +15,8 @@ export default {
   name: 'Masonry',
   props: {
     album: {
-      type: Array || Object,
-      default: () => ([]),
+      type: [Object, Array],
+      default: () => ({}),
     },
   },
   emits: ['selectItem'],
@@ -49,8 +41,10 @@ export default {
 <style lang="scss" scoped>
 .section__masonry {
   display: flex;
+  max-height: calc(100% - 65px);
   justify-content: center;
-  margin-top: 5em;
+  overflow: auto;
+  padding-top: 3em;
 }
 
 .section__masonry-wrapper {
@@ -64,10 +58,12 @@ export default {
   width: 100%;
   cursor: pointer;
 }
+
 .section__masonry-wrapper__item :hover {
   opacity: 0.6;
   transition: 0.5s;
 }
+
 .section__masonry-wrapper__item-img {
   width: 100%;
   height: auto;
@@ -97,5 +93,4 @@ export default {
     columns: 5;
   }
 }
-
 </style>
