@@ -40,8 +40,8 @@ const emit = defineEmits(['selectAlbum']);
 const navLink = ref(null);
 
 const select = (i, title) => {
-  console.log(i, title);
   emit('selectAlbum', i, title);
+  showMenu()
 };
 const goHome = () => {
   emit('selectAlbum', null, null);
