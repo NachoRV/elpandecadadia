@@ -2,8 +2,12 @@
   <TheNav :albums="albums" :selectAlbumTitle="selectAlbumTitle" @selectAlbum="select" />
 
 
-  <div class="horizontal-snap" v-if="selectAlbum === null">
+  <div class="horizontal-snap" v-if="selectAlbum === null" ref="horizontalSnap">
+    <button class="left" @click="moveL">
+      <img class="img__btn" alt="delete" src="../assets/back.svg" />
+    </button>
     <a v-for="p in picture" :key="p" href="#"><img :src="p"></a>
+    <button class="right" @click="moveR"> <img class="img__btn" alt="delete" src="../assets/next.svg" /> </button>
   </div>
 
   <Masonry v-else :album="albums[selectAlbum]" @selectItem="selectItem" />
@@ -15,7 +19,7 @@
 import TheNav from '@/components/TheNav.vue';
 import Masonry from '@/components/Masonry.vue';
 import Lightbox from '../components/Lightbox.vue';
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { db } from '@/firebase';
 
 const albums = ref([]);
@@ -25,6 +29,7 @@ const lightboxImgs = ref([]);
 const lightboxIndex = ref(0);
 const showLightbox = ref(false);
 const picture = ref([])
+const horizontalSnap = ref(null);
 
 const layout = () => {
   const numOfImg = albums.value[selectAlbum.value].img.length;
@@ -72,6 +77,17 @@ const getAlbums = () => {
   console.log(picture)
 };
 
+
+function moveR() {
+  const position = horizontalSnap.value.scrollLeft + 300;
+  horizontalSnap.value.scrollTo(position, 0);
+  console.log(horizontalSnap.value.scrollLeft)
+};
+function moveL() {
+  const position = horizontalSnap.value.scrollLeft - 300;
+  horizontalSnap.value.scrollTo(position, 0);
+  console.log(horizontalSnap.value.scrollLeft)
+}
 onMounted(async () => {
   await getAlbums();
 });
@@ -90,6 +106,29 @@ onMounted(async () => {
   overscroll-behavior-x: contain;
   scroll-snap-type: x mandatory;
 }
+
+.horizontal-snap button {
+  position: absolute;
+  border-radius: 50px;
+  width: 50px !important;
+  height: 50px;
+  border: none;
+  background-color: var(--main-color);
+}
+
+.img__btn {
+  width: 30px !important;
+  height: 30px;
+}
+
+button.right {
+  right: 10px;
+}
+
+button.left {
+  left: 10px;
+}
+
 
 .horizontal-snap>a {
   scroll-snap-align: center;
