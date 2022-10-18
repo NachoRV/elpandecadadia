@@ -1,10 +1,18 @@
 <template>
-  <div class="nav">
+  <div class="nav" v-if="false">
     <PublicNav
       :albums="albums"
       :selectAlbumTitle="selectAlbumTitle"
       @selectAlbum="select"
     />
+  </div>
+    <div
+    class="div"
+    v-else
+    :style="{ backgroundImage: 'url(' + require('@/assets/USAF_photographer.jpeg') + ')' }">
+  <h1>
+    Estoy trabajando en las exposiciones, pronto estarán disponibles.
+  </h1>
   </div>
   <Masonry :album="albums[selectAlbum]" @selectItem="selectItem" />
   <teleport to="body" v-if="showLightbox">
@@ -175,6 +183,15 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.div {
+  height: 100vh;
+  width: 100vw;
+  background-size: 100% 100%;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .nav {
   // min-height: 250px;
   display: flex;
