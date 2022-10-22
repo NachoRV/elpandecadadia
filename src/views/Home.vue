@@ -1,5 +1,5 @@
 <template>
-  <div class="nav" v-if="false">
+  <div class="nav" v-if="true">
     <PublicNav
       :albums="albums"
       :selectAlbumTitle="selectAlbumTitle"
