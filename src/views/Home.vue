@@ -1,213 +1,141 @@
 <template>
-  <div class="nav" v-if="true">
-    <PublicNav
-      :albums="albums"
-      :selectAlbumTitle="selectAlbumTitle"
-      @selectAlbum="select"
-    />
+  <TheNav :albums="albums" :selectAlbumTitle="selectAlbumTitle" @selectAlbum="select" />
+  <div class="horizontal-snap" v-if="selectAlbum === null" ref="horizontalSnap">
+    <button class="left" @click="moveL">
+      <img class="img__btn" alt="delete" src="../assets/back.svg" />
+    </button>
+    <a v-for="p in picture" :key="p" href="#"><img :src="p"></a>
+    <button class="right" @click="moveR"> <img class="img__btn" alt="delete" src="../assets/next.svg" /> </button>
   </div>
-    <div
-    class="div"
-    v-else
-    :style="{ backgroundImage: 'url(' + require('@/assets/USAF_photographer.jpeg') + ')' }">
-  <h1>
-    Estoy trabajando en las exposiciones, pronto estarán disponibles.
-  </h1>
-  </div>
-  <Masonry :album="albums[selectAlbum]" @selectItem="selectItem" />
+
+  <Masonry v-else :album="albums[selectAlbum]" @selectItem="selectItem" />
   <teleport to="body" v-if="showLightbox">
     <lightbox :index="lightboxIndex" :imgs="lightboxImgs" @close="close" />
   </teleport>
 </template>
-<script>
-import { onMounted, ref } from 'vue';
-import { db, st } from '@/firebase';
-import Lightbox from '@/components/Lightbox.vue';
-import PublicNav from '@/components/PublicNav.vue';
+<script setup>
+import TheNav from '@/components/TheNav.vue';
 import Masonry from '@/components/Masonry.vue';
+import Lightbox from '../components/Lightbox.vue';
+import { computed, onMounted, ref } from 'vue';
+import { db } from '@/firebase';
 
-export default {
-  components: {
-    Lightbox, PublicNav, Masonry,
-  },
-  name: 'Home',
-  setup() {
-    const albums = ref([]);
-    const selectAlbum = ref(null);
-    const showUpdateBtn = ref(false);
-    const selectAlbumTitle = ref(null);
-    const lightboxImgs = ref([]);
-    const lightboxIndex = ref(0);
-    const showLightbox = ref(false);
+const albums = ref([]);
+const selectAlbum = ref(null);
+const selectAlbumTitle = ref(null);
+const lightboxImgs = ref([]);
+const lightboxIndex = ref(0);
+const showLightbox = ref(false);
+const picture = ref([])
+const horizontalSnap = ref(null);
 
-    const layout = () => {
-      const numOfImg = albums.value[selectAlbum.value].img.length;
-      let numOfLines = numOfImg / 4;
-      const resto = parseInt(numOfLines.toString().split('.')[1], 10);
-      if (resto) numOfLines = Math.trunc(numOfLines) + 1;
-      // switch(restt) {
-      //  case 25:
-      // }
-    };
-    const close = () => {
-      console.log('close');
-      showLightbox.value = false;
-      lightboxImgs.value = [];
-      lightboxIndex.value = 0;
-    };
-
-    const select = (i, title) => {
-      if (i === selectAlbum.value) {
-        selectAlbum.value = null;
-        selectAlbumTitle.value = null;
-        return;
-      }
-      selectAlbumTitle.value = title;
-      selectAlbum.value = i;
-      console.log(selectAlbumTitle.value);
-      layout();
-    };
-
-    const selectItem = (array, i) => {
-      console.log(array, i);
-      lightboxImgs.value = array;
-      lightboxIndex.value = i;
-      showLightbox.value = true;
-    };
-    const deleteImg = (img, i) => {
-      const desertRef = st.ref().child(img);
-      desertRef
-        .delete()
-        .then(() => {
-          // File deleted successfully
-          console.log('borrada');
-          albums.value[selectAlbum.value].img.splice(i, 1);
-          console.log(albums.value);
-          db.collection('Albums')
-            .doc(albums.value[selectAlbum.value].titulo)
-            .set(albums.value[selectAlbum.value])
-            .then(() => {
-              console.log('Document successfully written!');
-            })
-            .catch((error) => {
-              console.error('Error writing document: ', error);
-            });
-        })
-        .catch((error) => {
-          // Uh-oh, an error occurred!
-          console.log(error);
-        });
-    };
-    const setTitle = (title, i) => {
-      albums.value[selectAlbum.value].img[i].title = title;
-      showUpdateBtn.value = true;
-    };
-    const setDescription = (description, i) => {
-      console.log(description, i);
-      albums.value[selectAlbum.value].img[i].description = description;
-      showUpdateBtn.value = true;
-    };
-
-    const update = () => {
-      db.collection('Albums')
-        .doc(albums.value[selectAlbum.value].titulo)
-        .set(albums.value[selectAlbum.value])
-        .then(() => {
-          console.log('Document successfully written!');
-          showUpdateBtn.value = false;
-        })
-        .catch((error) => {
-          console.error('Error writing document: ', error);
-        });
-    };
-
-    const deletePictures = (title) => {
-      albums.value.forEach((album) => {
-        console.log(album.titulo, title);
-        if (album.titulo === title) {
-          album.img.forEach((img, i) => {
-            deleteImg(img.name, i);
-          });
-        }
-      });
-    };
-
-    const getAlbums = () => {
-      albums.value = [];
-      db.collection('Albums')
-        .get()
-        .then((querySnapshot) => {
-          querySnapshot.forEach((doc) => {
-            // doc.data() is never undefined for query doc snapshots
-            albums.value.push(doc.data());
-          });
-        });
-      console.log('Data', albums.value);
-    };
-
-    const deleteAlbum = () => {
-      db.collection('Albums')
-        .doc(selectAlbumTitle.value)
-        .delete()
-        .then(() => {
-          deletePictures(selectAlbumTitle.value);
-          getAlbums();
-          console.log('Document successfully deleted!');
-        })
-        .catch((error) => {
-          console.error('Error removing document: ', error);
-        });
-    };
-
-    onMounted(async () => {
-      await getAlbums();
-    });
-    return {
-      albums,
-      selectAlbum,
-      select,
-      deleteImg,
-      deleteAlbum,
-      update,
-      setTitle,
-      setDescription,
-      showUpdateBtn,
-      selectAlbumTitle,
-      selectItem,
-      lightboxImgs,
-      lightboxIndex,
-      showLightbox,
-      close,
-    };
-  },
+const layout = () => {
+  const numOfImg = albums.value[selectAlbum.value].img.length;
+  let numOfLines = numOfImg / 4;
+  const resto = parseInt(numOfLines.toString().split('.')[1], 10);
+  if (resto) numOfLines = Math.trunc(numOfLines) + 1;
 };
+
+const select = (i, title) => {
+  console.log(i, title);
+  if (i === selectAlbum.value) {
+    selectAlbum.value = null;
+    selectAlbumTitle.value = null;
+    return;
+  }
+  selectAlbumTitle.value = title;
+  selectAlbum.value = i;
+  layout();
+};
+const selectItem = (array, i) => {
+  console.log(array, i);
+  lightboxImgs.value = array;
+  lightboxIndex.value = i;
+  showLightbox.value = true;
+};
+
+const close = () => {
+  console.log('close');
+  showLightbox.value = false;
+  lightboxImgs.value = [];
+  lightboxIndex.value = 0;
+};
+
+const getAlbums = () => {
+  albums.value = [];
+  db.collection('Albums')
+    .get()
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        picture.value.push(doc.data().img[0].url)
+        albums.value.push(doc.data());
+      });
+    });
+  console.log(picture)
+};
+
+
+function moveR() {
+  const position = horizontalSnap.value.scrollLeft + 300;
+  horizontalSnap.value.scrollTo(position, 0);
+  console.log(horizontalSnap.value.scrollLeft)
+};
+function moveL() {
+  const position = horizontalSnap.value.scrollLeft - 300;
+  horizontalSnap.value.scrollTo(position, 0);
+  console.log(horizontalSnap.value.scrollLeft)
+}
+onMounted(async () => {
+  await getAlbums();
+});
+
 </script>
 <style lang="scss" scoped>
-.div {
-  height: 100vh;
-  width: 100vw;
-  background-size: 100% 100%;
-  color: white;
-  display: flex;
-  justify-content: center;
+.horizontal-snap {
+  margin: auto;
+  display: grid;
   align-items: center;
+  grid-auto-flow: column;
+  gap: 1rem;
+  padding: 1rem;
+  max-width: 90%;
+  overflow-y: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
 }
-.nav {
-  // min-height: 250px;
-  display: flex;
-  justify-content: center;
-  min-width: 100vh;
-  background: url("../assets/IMG_1288.jpg");
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
+
+.horizontal-snap button {
+  position: absolute;
+  border-radius: 50px;
+  width: 50px !important;
+  height: 50px;
+  border: none;
+  background-color: var(--main-color);
 }
-@media (min-width: 1920px) {
-  .nav {
-    min-height: 400px;
-    min-width: 100vh;
-    background: url("../assets/IMG_1288.jpg");
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-  }
+
+.img__btn {
+  width: 30px !important;
+  height: 30px;
+}
+
+button.right {
+  right: 10px;
+}
+
+button.left {
+  left: 10px;
+}
+
+
+.horizontal-snap>a {
+  scroll-snap-align: center;
+}
+
+.horizontal-snap img {
+  width: calc(100vh - 75px);
+  max-width: 70vh;
+  object-fit: contain;
+  border-radius: 1rem;
 }
 </style>
